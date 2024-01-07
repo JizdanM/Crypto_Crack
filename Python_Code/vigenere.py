@@ -1,5 +1,6 @@
 import vars
 
+
 def translateMessage(message, key, mode):
     translated = []  # Stores the translated message
 
@@ -14,7 +15,7 @@ def translateMessage(message, key, mode):
             elif mode == 'decrypt':
                 num -= vars.LETTERS.find(key[keyIndex])
 
-            num %= len(message)  # Wraparound
+            num %= len(vars.LETTERS)  # Wraparound
 
             # Adds the encrypted/decrypted letter
             if symbol.isupper():

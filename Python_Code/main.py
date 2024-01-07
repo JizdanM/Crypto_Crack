@@ -1,10 +1,12 @@
 import pyperclip
 import sys
 import vigenere
+import detectEnglish
+import vigenereDictionaryHacker  # Dictionary brute-force
 
- 
+
 def main():
-    translateVigenere('Nlkl mn s wgtvxn qglwtai', 'SECRET', 'decrypt')
+    translateVigenere('Llkj ml s wgtvxl qgjwtyi', 'SECRET', 'decrypt')
 
 
 # Function that encrypts and decrypts a message using the Vigenere cipher
