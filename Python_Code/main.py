@@ -2,7 +2,7 @@ import pyperclip
 import sys
 import vigenere
 
-
+ 
 def main():
     translateVigenere('Nlkl mn s wgtvxn qglwtai', 'SECRET', 'decrypt')
 
