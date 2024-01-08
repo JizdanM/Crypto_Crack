@@ -5,16 +5,16 @@ import pyperclip
 import sys
 import vigenere
 import detectEnglish
+import vigHack
 import vigenereDictionaryHacker  # Dictionary brute-force
 import vars
 import re
 
 
 def main():
-    key = input('Key word please - ')  # Keyword input
 
     # Silet Mode
-    if input('Do you want to execute the app in silent mode? (Y/N): ').upper().startswith('Y'):
+    if input('Do you want to execute the app in silent mode? (Y/N): ').strip().upper().startswith('Y'):
         vars.SILENT_MODE = True
     else:
         vars.SILENT_MODE = False
@@ -29,9 +29,11 @@ def main():
     menu = input('Choose the action:\n Encryption - E\n Decryption - D\n Hacking - H\n\n > ')
 
     # Basic menu
-    if menu.upper().startswith('E'):
+    if menu.strip().upper().startswith('E'):
+        key = input('Key word please - ')  # Keyword input
         encryptMessage(message, key)
-    elif menu.upper().startswith('D'):
+    elif menu.strip().upper().startswith('D'):
+        key = input('Key word please - ')  # Keyword input
         decryptMessage(message, key)
     else:
         crackVigenere(message)
@@ -60,14 +62,24 @@ def translateVigenere(message, key, mode):
             file.write(translated)
         print('\n***\nMessage copied to output file.\n***')
 
-        if input('\nDo you wish to copy the message to the clipboard? (Y/N)').upper().startswith('Y'):
+        if input('\nDo you wish to copy the message to the clipboard? (Y/N)').strip().upper().startswith('Y'):
             pyperclip.copy(translated)
             print('\n***\nMessage copied to your clipboard.\n***')
 
 
 # Decrypts messages encrypted using the Vigenere function, without the need of a key
 def crackVigenere(message):
-    return message
+    print('Processing your message...\n')
+    translated = vigHack.hackVigenere(message)
+    print('The hacked message: ')
+    print(translated)
+    with open('output.txt', 'w') as file:
+        file.write(translated)
+    print('\n***\nMessage copied to output file.\n***')
+
+    if input('\nDo you wish to copy the message to the clipboard? (Y/N)').strip().upper().startswith('Y'):
+        pyperclip.copy(translated)
+        print('\n***\nMessage copied to your clipboard.\n***')
 
 
 # Formats the input message to get rid of any non-letter cahracters
