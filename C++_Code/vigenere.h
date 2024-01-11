@@ -5,59 +5,52 @@ using namespace std;
 
 const int MAX_LENGTH = 1000;
 
-char* translateMessage(const char* message, const char* key, const char* mode) {
-    char* translated = new char[MAX_LENGTH];  
-    translated[0] = '\0';
+string translateMessage(const string& message, const string& key, const string& mode) {
+    string translated;
 
     size_t keyIndex = 0;
-    char uppercaseKey[MAX_LENGTH];
-    size_t i = 0;
-    while (key[i] != '\0') {
-        uppercaseKey[i] = toupper(key[i]);
-        i++;
-    }
-    uppercaseKey[i] = '\0'; 
+    string uppercaseKey(key);
+    transform(uppercaseKey.begin(), uppercaseKey.end(), uppercaseKey.begin(), ::toupper);
 
-    i = 0;
-    while (message[i] != '\0') {
+    size_t i = 0;
+    while (i < message.length()) {
         char symbol = message[i];
         size_t num = LETTERS.find(toupper(symbol));
-        if (num != string::npos) { 
+        if (num != string::npos) {
             int keyNum = LETTERS.find(uppercaseKey[keyIndex]);
-            
-            if (std::strcmp(mode, "encrypt") == 0) {
+
+            if (mode == "encrypt") {
                 num += keyNum;
-            } else if (std::strcmp(mode, "decrypt") == 0) {
+            } else if (mode == "decrypt") {
                 num -= keyNum;
                 num = (num + LETTERS.length()) % LETTERS.length();
             }
-            
+
             if (num < 0) {
-        		num = static_cast<int>((num + LETTERS.length()) % LETTERS.length());
-    		} else {
-    			num %= LETTERS.length();
-			}
+                num = static_cast<int>((num + LETTERS.length()) % LETTERS.length());
+            } else {
+                num %= LETTERS.length();
+            }
 
             if (isupper(symbol)) {
-                translated[i] = LETTERS[num];
+                translated += LETTERS[num];
             } else if (islower(symbol)) {
-                translated[i] = tolower(LETTERS[num]);
+                translated += tolower(LETTERS[num]);
             } else {
-                translated[i] = symbol;
+                translated += symbol;
             }
 
             keyIndex++;
-            if (keyIndex == strlen(key)) {
+            if (keyIndex == uppercaseKey.length()) {
                 keyIndex = 0;
             }
         } else {
-            translated[i] = symbol; 
+            translated += symbol;
         }
 
         i++;
     }
 
-    translated[i] = '\0';
     return translated;
 }
 
