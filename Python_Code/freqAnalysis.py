@@ -53,18 +53,18 @@ def englishFreqMatchScore(message):
     # Returns the numbers of matches of the english language letters with the message letters
     # The match is considered first and last 6 letters from the lists
 
-    freOrder = getFrequencyOrder(message)
+    freqOrder = getFrequencyOrder(message)
 
     matchScore = 0
 
     # Finds the number of matches for first 6 letters
     for commonLetter in vars.ETAOIN[:6]:
-        if commonLetter in freOrder[:6]:
+        if commonLetter in freqOrder[:6]:
             matchScore += 1
 
     # Finds the number of matches for last 6 letters
     for uncommonLetter in vars.ETAOIN[-6:]:
-        if uncommonLetter in freOrder[-6:]:
+        if uncommonLetter in freqOrder[-6:]:
             matchScore += 1
 
     return matchScore
