@@ -4,7 +4,6 @@
 import pyperclip
 import sys
 import vigenere
-import detectEnglish
 import vigHack
 import vigenereDictionaryHacker  # Dictionary brute-force
 import vars
