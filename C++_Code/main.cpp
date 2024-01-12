@@ -1,12 +1,20 @@
 #include <iostream>
-#include <cstring>
+
 #include <fstream>
+#include <cctype>
+#include <cstring>
+#include <cstdio>
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <cstdio>
+
 #include <algorithm>
+#include <unordered_map>
+#include <vector>
+
 #include "vars.h"
 #include "vigenere.h"
+#include "freqAnalysis.h"
 
 using namespace std;
 
@@ -16,9 +24,6 @@ int main(int argc, char *argv[]){
 		exit(3);
 	}
 	if (argc == 2){
-		ifstream readFile("input.txt");
-		ofstream writeFile("output.txt");
-		
 		string key;
 		
 		// Encryption
@@ -28,6 +33,7 @@ int main(int argc, char *argv[]){
 			cout << "Processing the message... \n";
 			
 			// Message input
+			ifstream readFile("input.txt");
 			if (readFile.is_open()) {
         		string message((istreambuf_iterator<char>(readFile)), istreambuf_iterator<char>());
         		cout << "Message loaded. \n";
@@ -35,6 +41,7 @@ int main(int argc, char *argv[]){
 				
 				cout << "Key - ";
 				cin >> key;
+				cin.ignore();
 			
 				translatedMessage = translateMessage(message, key, "encrypt");
     		} else {
@@ -42,6 +49,7 @@ int main(int argc, char *argv[]){
     		}
     		
     		// Message output
+    		ofstream writeFile("output.txt");
     		if (writeFile.is_open()) {
     			cout << "Writing the encrypted message to the output file... \n";
         		writeFile << translatedMessage;
@@ -58,6 +66,7 @@ int main(int argc, char *argv[]){
 			cout << "Processing the message... \n";
 			
 			// Message input
+			ifstream readFile("input.txt");
 			if (readFile.is_open()) {
         		string message((istreambuf_iterator<char>(readFile)), istreambuf_iterator<char>());
         		cout << "Message loaded. \n";
@@ -65,6 +74,7 @@ int main(int argc, char *argv[]){
 				
 				cout << "Key - ";
 				cin >> key;
+				cin.ignore();
 			
 				translatedMessage = translateMessage(message, key, "decrypt");
     		} else {
@@ -72,6 +82,7 @@ int main(int argc, char *argv[]){
     		}
     		
     		// Message output
+    		ofstream writeFile("output.txt");
     		if (writeFile.is_open()) {
     			cout << "Writing the decrypted message to the output file... \n";
         		writeFile << translatedMessage;
@@ -85,6 +96,12 @@ int main(int argc, char *argv[]){
 		else if (strcmp(argv[1], "-hack") == 0){
 			cout << "hacking...\n";
 		}
+		else if (strcmp(argv[1], "-test") == 0){
+			string testMsg = "This is text written in english language to be able to check the score of the frequency analysis module. The score should be right.";
+			
+			int score = englishFreqMatchScore(testMsg);
+			cout << "The score of the message is - " << score << "\n";
+		}
 		else {
 			cout << argv[0] << ": no such option\n";
 			exit(1);
@@ -95,7 +112,6 @@ int main(int argc, char *argv[]){
 		exit(4);
 	}
 	
-	cin.ignore();
 	cout << "\nPress Enter to close the terminal.\n";
 	getchar();
 	exit(0);
