@@ -68,7 +68,7 @@ def getMostCommonFactor(seqFactors):
     factorsByCount = []
     for factor in factorCounts:
         if factor <= MAX_KEY_LENGTH:
-             factorsByCount.append((factor, factorCounts[factor]))
+            factorsByCount.append((factor, factorCounts[factor]))
 
     factorsByCount.sort(key=getItemAtIndexOne, reverse=True)
 
@@ -182,7 +182,8 @@ def hackVigenere(ciphertext):
     # Check all possible key lengths
     for keyLength in allLikelyKeyLengths:
         if not vars.SILENT_MODE:
-            print('Attempting hack with key length %s (%s possible keys)...' % (keyLength, NUM_MOST_FREQ_LETTERS ** keyLength))
+            print('Attempting hack with key length %s (%s possible keys)...' %
+                  (keyLength, NUM_MOST_FREQ_LETTERS ** keyLength))
         hackedMessage = attemptHackWithKeyLength(ciphertext, keyLength)
         if hackedMessage is not None:
             break
@@ -195,9 +196,9 @@ def hackVigenere(ciphertext):
             # Don't check the Kasiski results
             if keyLength not in allLikelyKeyLengths:
                 if not vars.SILENT_MODE:
-                    print('Attempting hack with key length %s (%s possible keys)...' % (keyLength, NUM_MOST_FREQ_LETTERS ** keyLength))
+                    print('Attempting hack with key length %s (%s possible keys)...' %
+                          (keyLength, NUM_MOST_FREQ_LETTERS ** keyLength))
                 hackedMessage = attemptHackWithKeyLength(ciphertext, keyLength)
                 if hackedMessage is not None:
                     break
     return hackedMessage
-
