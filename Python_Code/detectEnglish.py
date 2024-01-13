@@ -7,9 +7,7 @@
 # (There must be a "dictionary.txt" file in this directory with all English
 # words in it, one word per line. You can download this from
 # https://invpy.com/dictionary.txt)
-UPPERLETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-LETTERS_AND_SPACE = UPPERLETTERS + UPPERLETTERS.lower() + ' \t\n'
-
+import vars
 
 def loadDictionary():
     dictionaryFile = open('dictionary.txt')
@@ -41,7 +39,7 @@ def getEnglishCount(message):
 def removeNonLetters(message):
     lettersOnly = []
     for symbol in message:
-        if symbol in LETTERS_AND_SPACE:
+        if symbol in vars.FULL_LETTER_PATTERN:
             lettersOnly.append(symbol)
     return ''.join(lettersOnly)
 
