@@ -9,11 +9,12 @@
 # https://invpy.com/dictionary.txt)
 import vars
 
+
 def loadDictionary():
     dictionaryFile = open('dictionary.txt')
-    englishWords = {}
+    englishWords = []
     for word in dictionaryFile.read().split('\n'):
-        englishWords[word] = None
+        englishWords.append(word)
     dictionaryFile.close()
     return englishWords
 
