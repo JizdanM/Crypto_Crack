@@ -47,7 +47,6 @@ string getFrequencyOrder(const string& message) {
         return a.first > b.first;
     });
 
-	// Change striung to a list of strings
     string freqOrder;
     for (auto& pair : freqPairs) {
         freqOrder += pair.second;

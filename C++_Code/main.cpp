@@ -15,12 +15,13 @@
 #include "vars.h"
 #include "vigenere.h"
 #include "freqAnalysis.h"
+#include "detEnglish.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]){
 	if (argc == 1){
-		cout << argv[0] << ": no option\n";
+		cerr << argv[0] << ": no option\n";
 		exit(3);
 	}
 	if (argc == 2){
@@ -45,7 +46,7 @@ int main(int argc, char *argv[]){
 			
 				translatedMessage = translateMessage(message, key, "encrypt");
     		} else {
-        		cout << "Unable to open the input file. \n" << endl;
+        		cerr << "Unable to open the input file. \n" << endl;
     		}
     		
     		// Message output
@@ -56,7 +57,7 @@ int main(int argc, char *argv[]){
         		cout << "Message coppied to the output file. \n";
 				writeFile.close();
     		} else {
-        		cout << "Unable to open the output file. \n" << endl;
+        		cerr << "Unable to open the output file. \n" << endl;
     		}
 		}
 		// Decryption
@@ -78,7 +79,7 @@ int main(int argc, char *argv[]){
 			
 				translatedMessage = translateMessage(message, key, "decrypt");
     		} else {
-        		cout << "Unable to open the input file. \n" << endl;
+        		cerr << "Unable to open the input file. \n" << endl;
     		}
     		
     		// Message output
@@ -89,7 +90,7 @@ int main(int argc, char *argv[]){
         		cout << "Message coppied to the output file. \n";
 				writeFile.close();
     		} else {
-        		cout << "Unable to open the output file. \n" << endl;
+        		cerr << "Unable to open the output file. \n" << endl;
     		}
 		}
 		// Hacking
@@ -97,18 +98,22 @@ int main(int argc, char *argv[]){
 			cout << "hacking...\n";
 		}
 		else if (strcmp(argv[1], "-test") == 0){
-			string testMsg = "This is text written in english language to be able to check the score of the frequency analysis module. The score should be right.";
+			string testMsg = "segbhn ujgseuiseghs uihguse ghusegujseh uigsehujighseui hguji.";
 			
-			int score = englishFreqMatchScore(testMsg);
-			cout << "The score of the message is - " << score << "\n";
+			bool resp = isEnglish(testMsg);
+			if(resp){
+				cerr << "Message is in english\n";
+			} else {
+				cerr << "Message is not in english\n";
+			}
 		}
 		else {
-			cout << argv[0] << ": no such option\n";
+			cerr << argv[0] << ": no such option\n";
 			exit(1);
 		}
 	}
 	if (argc > 2){
-		cout << argv[0] << ": too many strings\n";
+		cerr << argv[0] << ": too many strings\n";
 		exit(4);
 	}
 	
