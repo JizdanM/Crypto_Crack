@@ -33,17 +33,23 @@ string removeNonLetters(const string& message) {
 }
 
 double getEnglishCount(const string& message) {
-    string upperMessage = message;
-    transform(upperMessage.begin(), upperMessage.end(), upperMessage.begin(), ::toupper);
+    char* upperMessage = new char[message.length() + 1];
+    for (size_t i = 0; i < message.length(); ++i) {
+        upperMessage[i] = std::toupper(message[i]);
+    }
+    upperMessage[message.length()] = '\0';
 
     string cleanedMessage = removeNonLetters(upperMessage);
+    delete[] upperMessage;
+    
     vector<string> possibleWords;
 
-    size_t pos = 0;
-    while ((pos = cleanedMessage.find(' ')) != string::npos) {
-        possibleWords.push_back(cleanedMessage.substr(0, pos));
-        cleanedMessage.erase(0, pos + 1);
+    size_t* pos = new size_t(0);
+    while ((*pos = cleanedMessage.find(' ')) != string::npos) {
+        possibleWords.push_back(cleanedMessage.substr(0, *pos));
+        cleanedMessage.erase(0, *pos + 1);
     }
+    delete pos;
     possibleWords.push_back(cleanedMessage);
 
     if (possibleWords.empty()) {
