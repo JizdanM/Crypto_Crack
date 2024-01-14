@@ -11,11 +11,13 @@
 #include <algorithm>
 #include <unordered_map>
 #include <vector>
+#include <cmath>
 
 #include "vars.h"
 #include "vigenere.h"
 #include "freqAnalysis.h"
 #include "detEnglish.h"
+#include "vigHack.h"
 
 using namespace std;
 
@@ -95,16 +97,33 @@ int main(int argc, char *argv[]){
 		}
 		// Hacking
 		else if (strcmp(argv[1], "-hack") == 0){
-			cout << "hacking...\n";
-		}
-		else if (strcmp(argv[1], "-test") == 0){
-			string testMsg = "segbhn ujgseuiseghs uihguse ghusegujseh uigsehujighseui hguji.";
+			// Message input
+			string hackedMessage;
 			
-			bool resp = isEnglish(testMsg);
-			if(resp){
-				cerr << "Message is in english\n";
+			ifstream readFile("input.txt");
+			if (readFile.is_open()) {
+        		string message((istreambuf_iterator<char>(readFile)), istreambuf_iterator<char>());
+        		cout << "Message loaded. \n";
+				readFile.close();
+			
+				hackedMessage = hackVigenere(message);
+    		} else {
+        		cerr << "Unable to open the input file. \n" << endl;
+    		}
+    		
+    		//Message output
+    		if(!hackedMessage.empty()){
+    			ofstream writeFile("output.txt");
+    			if (writeFile.is_open()) {
+    				cout << "Writing the hacked message to the output file... \n";
+        			writeFile << hackedMessage;
+        			cout << "Message coppied to the output file. \n";
+					writeFile.close();
+    			} else {
+        			cerr << "Unable to open the output file. \n" << endl;
+    			}
 			} else {
-				cerr << "Message is not in english\n";
+				cerr << "Was not able to hack the message";
 			}
 		}
 		else {
