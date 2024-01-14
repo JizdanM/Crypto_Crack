@@ -36,10 +36,10 @@ def findRepeatingSequenceSpacing(message):
 def getUsefulFactors(num):
     # Factors less that the max key length + 1 and not 1
 
+    factors = []  # List of factors
+
     if num < 2:
         return []  # Numbers <2 have no factors
-
-    factors = []  # List of factors
 
     # Check integers up to the key max length
     for i in range(2, MAX_KEY_LENGTH + 1):
