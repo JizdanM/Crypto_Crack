@@ -42,7 +42,7 @@ int main(int argc, char *argv[]){
 			
 			ifstream readFile("input.txt");
 			if (readFile.is_open()) {
-				if (readFile.peek() == ::eof()) {
+				if (readFile.peek() == EOF) {
         			cerr << "Error: The file is empty, copy the message to input.txt" << endl;
     			} else {
         			string message((istreambuf_iterator<char>(readFile)), istreambuf_iterator<char>());
@@ -86,16 +86,14 @@ int main(int argc, char *argv[]){
 		else if (strcmp(argv[1], "-encrypt") == 0){
 			string translatedMessage;
 			
-			cout << "Processing the message... \n";
-			
 			// Message input
 			ifstream readFile("input.txt");
 			if (readFile.is_open()) {
-				if (readFile.peek() == ::eof()) {
+				if (readFile.peek() == EOF) {
         			cerr << "Error: The file is empty, copy the message to input.txt" << endl;
     			} else {
         			string message((istreambuf_iterator<char>(readFile)), istreambuf_iterator<char>());
-        			cout << "Message loaded. \n";
+        			cout << "Message loaded. Processing the message... \n";
 					readFile.close();
 				
 					translatedMessage = translateMessage(message, argv[2], "encrypt");
@@ -106,29 +104,29 @@ int main(int argc, char *argv[]){
     		
     		// Message output
     		ofstream writeFile("output.txt");
-    		if (writeFile.is_open()) {
-    			cout << "Writing the encrypted message to the output file... \n";
-        		writeFile << translatedMessage;
-        		cout << "Message coppied to the output file. \n";
-				writeFile.close();
-    		} else {
-        		cerr << "Unable to open the output file. \n" << endl;
-    		}
+    		if (!translatedMessage.empty()){
+    			if (writeFile.is_open()) {
+    				cout << "Writing the encrypted message to the output file... \n";
+        			writeFile << translatedMessage;
+        			cout << "Message coppied to the output file. \n";
+					writeFile.close();
+    			} else {
+        			cerr << "Unable to open the output file. \n" << endl;
+    			}
+			}
 		}
 		// Decryption
 		else if (strcmp(argv[1], "-decrypt") == 0){
 			string translatedMessage;
 			
-			cout << "Processing the message... \n";
-			
 			// Message input
 			ifstream readFile("input.txt");
 			if (readFile.is_open()) {
-				if (readFile.peek() == ::eof()) {
+				if (readFile.peek() == EOF) {
         			cerr << "Error: The file is empty, copy the message to input.txt" << endl;
     			} else {
         			string message((istreambuf_iterator<char>(readFile)), istreambuf_iterator<char>());
-        			cout << "Message loaded. \n";
+        			cout << "Message loaded. Processing the message... \n";
 					readFile.close();
 			
 					translatedMessage = translateMessage(message, argv[2], "decrypt");
@@ -139,13 +137,15 @@ int main(int argc, char *argv[]){
     		
     		// Message output
     		ofstream writeFile("output.txt");
-    		if (writeFile.is_open()) {
-    			cout << "Writing the decrypted message to the output file... \n";
-        		writeFile << translatedMessage;
-        		cout << "Message coppied to the output file. \n";
-				writeFile.close();
-    		} else {
-        		cerr << "Unable to open the output file. \n" << endl;
+    		if (!translatedMessage.empty()){
+    			if (writeFile.is_open()) {
+    				cout << "Writing the decrypted message to the output file... \n";
+        			writeFile << translatedMessage;
+        			cout << "Message coppied to the output file. \n";
+					writeFile.close();
+    			} else {
+        			cerr << "Unable to open the output file. \n" << endl;
+    			}
     		}
 		}
 	}
