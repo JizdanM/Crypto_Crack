@@ -36,19 +36,19 @@ string getFrequencyOrder(const string& message) {
         freqToLetter[freq] += letter;
     }
 
-    for (auto& pair : freqToLetter) {
+    for (pair<const int, string>& pair : freqToLetter) {
         sort(pair.second.begin(), pair.second.end(), [](char a, char b) {
             return ETAOIN.find(a) > ETAOIN.find(b);
         });
     }
 
     vector<pair<int, string>> freqPairs(freqToLetter.begin(), freqToLetter.end());
-    sort(freqPairs.begin(), freqPairs.end(), [](auto& a, auto& b) {
+    sort(freqPairs.begin(), freqPairs.end(), [](pair<int, string>& a, pair<int, string>& b) {
         return a.first > b.first;
     });
 
     string freqOrder;
-    for (auto& pair : freqPairs) {
+    for (pair<int, string>& pair : freqPairs) {
         freqOrder += pair.second;
     }
 
