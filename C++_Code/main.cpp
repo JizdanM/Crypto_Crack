@@ -42,11 +42,15 @@ int main(int argc, char *argv[]){
 			
 			ifstream readFile("input.txt");
 			if (readFile.is_open()) {
-        		string message((istreambuf_iterator<char>(readFile)), istreambuf_iterator<char>());
-        		cout << "Message loaded. Starting to crack the message...\n";
-				readFile.close();
-			
-				hackedMessage = hackVigenere(message);
+				if (readFile.peek() == ::eof()) {
+        			cerr << "Error: The file is empty, copy the message to input.txt" << endl;
+    			} else {
+        			string message((istreambuf_iterator<char>(readFile)), istreambuf_iterator<char>());
+        			cout << "Message loaded. Starting to crack the message...\n";
+					readFile.close();
+				
+					hackedMessage = hackVigenere(message);
+				}
     		} else {
         		cerr << "Unable to open the input file. \n" << endl;
     		}
@@ -87,11 +91,15 @@ int main(int argc, char *argv[]){
 			// Message input
 			ifstream readFile("input.txt");
 			if (readFile.is_open()) {
-        		string message((istreambuf_iterator<char>(readFile)), istreambuf_iterator<char>());
-        		cout << "Message loaded. \n";
-				readFile.close();
+				if (readFile.peek() == ::eof()) {
+        			cerr << "Error: The file is empty, copy the message to input.txt" << endl;
+    			} else {
+        			string message((istreambuf_iterator<char>(readFile)), istreambuf_iterator<char>());
+        			cout << "Message loaded. \n";
+					readFile.close();
 				
-				translatedMessage = translateMessage(message, argv[2], "encrypt");
+					translatedMessage = translateMessage(message, argv[2], "encrypt");
+				}
     		} else {
         		cerr << "Unable to open the input file. \n" << endl;
     		}
@@ -116,11 +124,15 @@ int main(int argc, char *argv[]){
 			// Message input
 			ifstream readFile("input.txt");
 			if (readFile.is_open()) {
-        		string message((istreambuf_iterator<char>(readFile)), istreambuf_iterator<char>());
-        		cout << "Message loaded. \n";
-				readFile.close();
+				if (readFile.peek() == ::eof()) {
+        			cerr << "Error: The file is empty, copy the message to input.txt" << endl;
+    			} else {
+        			string message((istreambuf_iterator<char>(readFile)), istreambuf_iterator<char>());
+        			cout << "Message loaded. \n";
+					readFile.close();
 			
-				translatedMessage = translateMessage(message, argv[2], "decrypt");
+					translatedMessage = translateMessage(message, argv[2], "decrypt");
+				}
     		} else {
         		cerr << "Unable to open the input file. \n" << endl;
     		}
