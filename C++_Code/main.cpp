@@ -3,10 +3,6 @@
 #include <fstream>
 #include <cctype>
 #include <cstring>
-#include <cstdio>
-
-#include <stdio.h>
-#include <stdlib.h>
 
 #include <algorithm>
 #include <unordered_map>
@@ -27,10 +23,63 @@ int main(int argc, char *argv[]){
 		exit(3);
 	}
 	if (argc == 2){
-		string key;
-		
+		// Hacking
+		if (strcmp(argv[1], "-hack") == 0){
+			// Ask user if he want to use SILENT_MODE
+			cout << "Do you wish to enable Silent Mode? (Y/N) ";
+
+            string* response = new string;
+            getline(cin, *response);
+
+            if (!response->empty() && toupper((*response)[0]) == 'Y') {
+                SILENT_MODE = true;
+            }
+            
+            delete response;
+			
+			// Message input
+			string hackedMessage;
+			
+			ifstream readFile("input.txt");
+			if (readFile.is_open()) {
+        		string message((istreambuf_iterator<char>(readFile)), istreambuf_iterator<char>());
+        		cout << "Message loaded. Starting to crack the message...\n";
+				readFile.close();
+			
+				hackedMessage = hackVigenere(message);
+    		} else {
+        		cerr << "Unable to open the input file. \n" << endl;
+    		}
+    		
+    		//Message output
+    		if(!hackedMessage.empty()){
+    			ofstream writeFile("output.txt");
+    			if (writeFile.is_open()) {
+    				cout << "Writing the hacked message to the output file... \n";
+        			writeFile << hackedMessage;
+        			cout << "Message coppied to the output file. \n";
+					writeFile.close();
+    			} else {
+        			cerr << "Unable to open the output file. \n" << endl;
+    			}
+			} else {
+				cerr << "Was not able to hack the message";
+			}
+		}
+		else if(strcmp(argv[1], "-encrypt") == 0 || strcmp(argv[1], "-decrypt") == 0){
+			cerr << "Specify the key!" << endl;
+		}
+		else {
+			cerr << argv[0] << ": no such option\n";
+			exit(1);
+		}
+	}
+	if (argc == 3){
+		if(strlen(argv[2]) == 1){
+			cerr << "Please specify a stronger key!" << endl;
+		}
 		// Encryption
-		if (strcmp(argv[1], "-encrypt") == 0){
+		else if (strcmp(argv[1], "-encrypt") == 0){
 			string translatedMessage;
 			
 			cout << "Processing the message... \n";
@@ -42,11 +91,7 @@ int main(int argc, char *argv[]){
         		cout << "Message loaded. \n";
 				readFile.close();
 				
-				cout << "Key - ";
-				cin >> key;
-				cin.ignore();
-			
-				translatedMessage = translateMessage(message, key, "encrypt");
+				translatedMessage = translateMessage(message, argv[2], "encrypt");
     		} else {
         		cerr << "Unable to open the input file. \n" << endl;
     		}
@@ -74,12 +119,8 @@ int main(int argc, char *argv[]){
         		string message((istreambuf_iterator<char>(readFile)), istreambuf_iterator<char>());
         		cout << "Message loaded. \n";
 				readFile.close();
-				
-				cout << "Key - ";
-				cin >> key;
-				cin.ignore();
 			
-				translatedMessage = translateMessage(message, key, "decrypt");
+				translatedMessage = translateMessage(message, argv[2], "decrypt");
     		} else {
         		cerr << "Unable to open the input file. \n" << endl;
     		}
@@ -95,43 +136,8 @@ int main(int argc, char *argv[]){
         		cerr << "Unable to open the output file. \n" << endl;
     		}
 		}
-		// Hacking
-		else if (strcmp(argv[1], "-hack") == 0){
-			// Message input
-			string hackedMessage;
-			
-			ifstream readFile("input.txt");
-			if (readFile.is_open()) {
-        		string message((istreambuf_iterator<char>(readFile)), istreambuf_iterator<char>());
-        		cout << "Message loaded. \n";
-				readFile.close();
-			
-				hackedMessage = hackVigenere(message);
-    		} else {
-        		cerr << "Unable to open the input file. \n" << endl;
-    		}
-    		
-    		//Message output
-    		if(!hackedMessage.empty()){
-    			ofstream writeFile("output.txt");
-    			if (writeFile.is_open()) {
-    				cout << "Writing the hacked message to the output file... \n";
-        			writeFile << hackedMessage;
-        			cout << "Message coppied to the output file. \n";
-					writeFile.close();
-    			} else {
-        			cerr << "Unable to open the output file. \n" << endl;
-    			}
-			} else {
-				cerr << "Was not able to hack the message";
-			}
-		}
-		else {
-			cerr << argv[0] << ": no such option\n";
-			exit(1);
-		}
 	}
-	if (argc > 2){
+	if (argc > 3){
 		cerr << argv[0] << ": too many strings\n";
 		exit(4);
 	}
