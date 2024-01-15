@@ -240,7 +240,26 @@ string hackVigenere(const string& ciphertext) {
         }
         hackedMessage = attemptHackWithKeyLength(ciphertext, keyLength);
         if (!hackedMessage.empty()) {
-            break;
+            return hackedMessage;
+        }
+    }
+    
+    if (!SILENT_MODE) {
+        cout << "Unable to hack message with likely key length(s). Brute forcing key length...\n";
+    }
+
+    for (int keyLength = 1; keyLength <= MAX_KEY_LENGTH; ++keyLength) {
+        if (find(allLikelyKeyLengths.begin(), allLikelyKeyLengths.end(), keyLength) != allLikelyKeyLengths.end()) {
+            continue;
+        }
+
+        if (!SILENT_MODE) {
+            cout << "Attempting hack with key length " << keyLength << " (" << pow(NUM_MOST_FREQ_LETTERS, keyLength) << " possible keys)...\n";
+        }
+
+        hackedMessage = attemptHackWithKeyLength(ciphertext, keyLength);
+        if (!hackedMessage.empty()) {
+            return hackedMessage;
         }
     }
 
